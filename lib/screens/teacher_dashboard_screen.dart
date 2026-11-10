@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'manage_attendance_screen.dart';
+import 'profile_screen.dart'; // Import ProfileScreen
 
 class TeacherDashboardScreen extends StatefulWidget {
   const TeacherDashboardScreen({super.key});
@@ -11,35 +12,49 @@ class TeacherDashboardScreen extends StatefulWidget {
 class _TeacherDashboardScreenState extends State<TeacherDashboardScreen> {
   int _selectedIndex = 0;
 
+  // Daftar tampilan screen berdasarkan tab BottomNavigationBar
+  late final List<Widget> _screens = [
+    _buildDashboardContent(), // Body dashboard awal
+    const Center(child: Text('Halaman Kelas')),
+    const Center(child: Text('Halaman Laporan')),
+    const ProfileScreen(), // Screen Profil
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              const SizedBox(height: 20),
-              _buildTeacherSummaryCard(),
-              const SizedBox(height: 24),
-              _buildSectionTitle('Menu Utama'),
-              const SizedBox(height: 16),
-              _buildQuickActionGrid(),
-              const SizedBox(height: 28),
-              _buildSectionTitle(
-                'Jadwal Mengajar Hari Ini',
-                subtitle: 'Selasa, 18 Agu',
-              ),
-              const SizedBox(height: 14),
-              _buildTeachingScheduleList(),
-            ],
-          ),
+      // Tampilkan screen yang aktif sesuai index
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  // Pisahkan body utama dashboard ke dalam method tersendiri
+  Widget _buildDashboardContent() {
+    return SafeArea(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(),
+            const SizedBox(height: 20),
+            _buildTeacherSummaryCard(),
+            const SizedBox(height: 24),
+            _buildSectionTitle('Menu Utama'),
+            const SizedBox(height: 16),
+            _buildQuickActionGrid(),
+            const SizedBox(height: 28),
+            _buildSectionTitle(
+              'Jadwal Mengajar Hari Ini',
+              subtitle: 'Selasa, 18 Agu',
+            ),
+            const SizedBox(height: 14),
+            _buildTeachingScheduleList(),
+          ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 

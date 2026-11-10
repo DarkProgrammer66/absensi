@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: const Color(0xFFF1F5F9),
       ),
-      home: const TeacherDashboardScreen(),
+      home:
+          const SignInScreen(), // Ganti dengan SignInScreen() jika ingin memulai dari halaman login
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/course_schedule.dart';
+import 'profile_screen.dart'; // Import ProfileScreen
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -10,6 +11,14 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
+
+  // 2. Buat list screens sesuai dengan BottomNavigationBar
+  late final List<Widget> _screens = [
+    _buildDashboardContent(), // Konten utama dashboard
+    const Center(child: Text('Halaman Jadwal')),
+    const Center(child: Text('Halaman Riwayat')),
+    const ProfileScreen(), // Layar Profil Mahasiswa
+  ];
 
   final List<CourseSchedule> _todaySchedules = [
     CourseSchedule(
@@ -48,28 +57,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              const SizedBox(height: 20),
-              _buildAttendanceSummaryCard(),
-              const SizedBox(height: 24),
-              _buildSectionTitle(
-                'Jadwal Mata Pelajaran Hari Ini',
-                'Senin, 17 Feb',
-              ),
-              const SizedBox(height: 14),
-              _buildScheduleList(),
-            ],
-          ),
+      // 3. Tampilkan screen aktif berdasarkan _selectedIndex
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  // 4. Bungkus konten isi dashboard yang lama ke method ini
+  Widget _buildDashboardContent() {
+    return SafeArea(
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildHeader(),
+            const SizedBox(height: 20),
+            _buildAttendanceSummaryCard(),
+            const SizedBox(height: 24),
+            _buildSectionTitle(
+              'Jadwal Mata Pelajaran Hari Ini',
+              'Senin, 17 Feb',
+            ),
+            const SizedBox(height: 14),
+            _buildScheduleList(),
+          ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
